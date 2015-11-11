@@ -1,8 +1,13 @@
 
 <div class="container">
-	<h3>{{}}</h3>
+	<h3>{{DetailCtrl.name}} : {{DetailCtrl.sessionId}}</h3>
+	<input type="text" ng-model="DetailCtrl.name">
+	<a class="ui-click" href="">click detail</a>
+	<button ng-click="DetailCtrl.say()">say</button>
 	<div class="box_container">
-		<div class="box .border-rad-small"></div>
-		<div class="box .border-rad-small"></div>
+		<div class="box .border-rad-large" ng-repeat="list in DetailCtrl.memberList">
+			<span>name: {{list.name}}</span>
+			<span>id: {{list.id}}</span>
+		</div>
 	</div>
 </div>

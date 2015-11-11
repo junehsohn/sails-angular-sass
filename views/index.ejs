@@ -2,16 +2,20 @@
 <!DOCTYPE html>
 <html ng-app="App">
   <head>
-    <title>New Sails App</title>
+    <title>Angular-SCSS-SailsJS App</title>
 
     <!-- Viewport mobile tag for sensible mobile support -->
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     <!--STYLES-->
-    <link rel="stylesheet" href="/styles/dist/production.min.css">
+    <link rel="stylesheet" href="/styles/importer.css">
     <!--STYLES END-->
 
     <!--SCRIPTS-BASE-->
-    
+    <script src="/js/dependencies/sails.io.js"></script>
+    <script src="/js/dependencies/jquery.min.js"></script>
+    <script src="/js/dependencies/angular.min.js"></script>
+    <script src="/js/dependencies/underscore-min.js"></script>
+    <script src="/js/dependencies/angular-ui-router.min.js"></script>
     <!--SCRIPTS-BASE END-->
   </head>
 
@@ -20,7 +24,9 @@
       <div ui-view></div>
     </div>
     <!--SCRIPTS-->
-    <script src="/js/dist/production.all.min.js"></script>
+    <script src="/js/app/app.js"></script>
+    <script src="/js/app/ctrl/appCtrl.js"></script>
+    <script src="/js/app/ctrl/detailCtrl.js"></script>
     <!--SCRIPTS END-->
   </body>
 </html>

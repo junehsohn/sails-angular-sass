@@ -21,7 +21,7 @@ body{
 
 	.box{
 		@extend .g-box;
-		
+		float: left;
 		.border-rad-large{
 			@include border-radius(10px);
 		}
@@ -30,6 +30,11 @@ body{
 			@include border-radius(3px);
 			background-color: $color-black;
 		}
+	}
+
+	.ui-click{
+		font-size: 1em;
+		font-color:  $color-green;
 	}
 
 }

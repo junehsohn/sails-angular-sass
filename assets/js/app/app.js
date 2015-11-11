@@ -7,10 +7,10 @@
 
 	function routeConfig($stateProvider, $urlRouterProvider, $httpProvider){
 		$stateProvider.state( "list", {
-            url : "/list",
+            url : "/list/{list_id}?page_id",
             templateUrl : "/templates/list.html",
             controller : "App.appCtrl",
-            // controllerAs : "AppCtrl",
+            controllerAs : "AppCtrl",
             resolve : {
                 go : function()
                 {
@@ -19,19 +19,20 @@
             }
         });
 
-        /*$stateProvider.state( "detail", {
+        $stateProvider.state( "detail", {
             url : "/detail/{session_id}",
-            templateUrl : "/app/operator/views/insession.html",
-            controller : "detailCtrl",
+            templateUrl : "/templates/detail.html",
+            controller : "App.detailCtrl",
+            controllerAs : "DetailCtrl",
             resolve : {
                 go : function()
                 {
                     return goPromise;
                 }
             }
-        });*/
+        });
 
-        $urlRouterProvider.otherwise( "/list" );
+        $urlRouterProvider.otherwise( "/list/test01?page_id=01" );
 
         $httpProvider.defaults.headers.common["ajax-request"] = "true";
 	}

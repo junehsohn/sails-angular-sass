@@ -2,26 +2,27 @@
 	'use strict';
 
 
-	angular.module('App').controller('App.appCtrl', ['$scope', '$timeout', appCtrl]);
+	angular.module('App').controller('App.appCtrl', ['$scope', '$timeout', "$stateParams", appCtrl]);
 
-	function appCtrl( $scope, $timeout ){
+	function appCtrl( $scope, $timeout, $stateParams ){
 		var vm = this;
-		$scope.name = 'List Titme';
-		$scope.changeName = changeName;
-		$scope.say = say;
-		$scope.memberList = [
+		vm.listId = $stateParams.list_id;
+		vm.pageId = $stateParams.page_id;
+		vm.name = 'List Theme01';
+		vm.say = say;
+		vm.memberList = [
 			{name:'john', id:'m01'},
 			{name:'steve', id:'m02'},
 			{name:'jack', id:'m03'},
 			{name:'john', id:'m04'}
 		];
 
-		var changeName = function(__name){
-			$scope.name = __name;
-		};
+		$scope.$on( "$destroy", function(){
+			console.log('destroy list');
+        });
 
 		var say = function(){
-			alert($scope.name);
+			alert(vm.name);
 		};
 
 	}
