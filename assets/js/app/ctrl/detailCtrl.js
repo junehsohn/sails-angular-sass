@@ -2,10 +2,12 @@
 	'use strict';
 
 
-	angular.module('App').controller('App.detailCtrl', ['$scope', '$timeout', "$stateParams", detailCtrl]);
+	angular.module('App').controller('App.detailCtrl', ['$scope', '$timeout', "$stateParams", "App.commonService", detailCtrl]);
 
-	function detailCtrl( $scope, $timeout, $stateParams ){
+	function detailCtrl( $scope, $timeout, $stateParams, commonService ){
 		var vm = this;
+		vm.commonService = commonService;
+
 		vm.sessionId = $stateParams.session_id;
 		vm.name = 'List Theme02';
 		vm.say = say;
@@ -23,6 +25,7 @@
 			alert(vm.name);
 		};
 
+		console.log('detailCtrl init: ', vm.commonService.name);
 	}
 
 

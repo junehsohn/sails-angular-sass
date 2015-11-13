@@ -34,7 +34,11 @@ module.exports.routes = {
 
   '/': {
     view: 'index'
-  }
+  },
+  '/test': {
+    view: 'test'
+  },
+  'GET /name': "MainController.getName"
 
   /***************************************************************************
   *                                                                          *

@@ -1,0 +1,136 @@
+
+<!DOCTYPE html>
+<html ng-app="App">
+  <head>
+    <title>Angular-SCSS-SailsJS App</title>
+
+    <!-- Viewport mobile tag for sensible mobile support -->
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <!--STYLES-->
+    <link rel="stylesheet" href="/styles/importer.css">
+    <!--STYLES END-->
+
+    <!--SCRIPTS-BASE-->
+    <script src="/js/dependencies/sails.io.js"></script>
+    <script src="/js/dependencies/jquery.min.js"></script>
+    <script src="/js/dependencies/angular.min.js"></script>
+    <script src="/js/dependencies/underscore-min.js"></script>
+    <script src="/js/dependencies/angular-ui-router.min.js"></script>
+    <!--SCRIPTS-BASE END-->
+  </head>
+
+  <body>
+    <div id="wrap" class="">
+        <parent-dir></parent-dir>
+    </div>
+    
+    <script>
+
+        angular.module('App.service',[])
+                .factory(
+                    'XHR',['$http', '$q', '$cacheFactory',
+                    function($http, $q, $cacheFactory){
+
+                        var _list = function(){
+                            var deferred = $q.defer(),
+                                myAppCache = $cacheFactory('myApp');
+
+                            if( myAppCache.get('auth') ){
+                                deferred.resolve(myAppCache.get('auth'));
+
+                            }else{
+                                $http({method:'GET',url:'/name'})
+                                    .then(function(__suc){
+                                        myAppCache.put('auth', __suc);
+                                        deferred.resolve(myAppCache.get('auth'));
+
+                                    }, function(__err){
+                                        deferred.reject(__err);
+                                        if(__opt && __opt.fail && __opt.fail.redirect===true){
+                                            $state.go('/list');
+                                        }
+                                    });
+                            }
+                            
+                            return deferred.promise;
+                        };
+
+                        return {
+                            list:_list
+                        };
+
+                    }]
+                );
+
+        angular.module('App.parentDir',['App.service'])
+                .directive('parentDir', ['XHR', function(XHR){
+
+                    return {
+                        restrict:'E',
+                        template:[
+                            '<div>',
+                                '<h3>',
+                                    '{{parentCtrl.data.name}}',
+                                '</h3>',
+                            '</div>'
+                        ].join(''),
+                        replace:false,
+                        scope:{
+
+                        },
+                        link:function(scope, iEle, iAttr){
+
+                        },
+                        controller:function($scope){
+                            var vm = this;
+                            vm.data;
+
+
+                            _init();
+
+                            function _init(){
+                                // console.log( 'parentDir ctrl init: ',XHR.list() );
+                                XHR.list().then(function(__suc){
+                                   vm.data =  __suc.data.DATA;
+                                }, function(__err){
+                                    console.log('err: ', __err);
+
+                                });
+
+
+                               /* XHR.list().then(function(__data){
+                                    console.log( 'parentDir ctrl init1 : ',__data );
+                                });*/
+                            }
+                        },
+                        controllerAs:'parentCtrl'
+                    };
+                }]);
+
+        angular.module('App.childDir',[])
+                .directive('childDir', ['$q', function($q){
+
+                    return {
+                        restrict:'AE',
+                        require:'^parentDir',
+                        template:'<div></div>',
+                        replace:true,
+                        scope:{
+                            list:'='
+                        },
+                        link:function(scope, iEle, iAttr){
+
+                        },
+                        controller:function($scope){
+
+                        },
+                        controllerAs:'childCtrl'
+                    };
+                }]);
+
+        angular.module('App',['App.parentDir', 'App.childDir', 'App.service']);
+
+    </script>
+
+  </body>
+</html>

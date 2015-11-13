@@ -33,7 +33,9 @@ var jsFilesToInjectBase = [
 
 var jsFilesToInject = [
   
+  
   'js/app/app.js',
+  'js/app/provider/*.js',
   'js/app/**/*.js'
 ];
 

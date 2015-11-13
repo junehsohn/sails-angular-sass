@@ -2,7 +2,8 @@
 <div class="container">
 	<h3>{{AppCtrl.name}} : {{AppCtrl.listId}} : {{AppCtrl.pageId}}</h3>
 	<input type="text" ng-model="AppCtrl.name">
-	<a class="ui-click" ui-sref="detail" ui-sref-opts="{session_id:AppCtrl.pageId}">click list</a>
+	<a class="ui-click" ui-sref="list" ui-sref-opts="{page_id:AppCtrl.name}">click list</a>
+	<a class="ui-click" ui-sref="detail" ui-sref-opts="{session_id:AppCtrl.pageId}">click detail</a>
 	<div class="box_container" ng-class="{active:$state.includes('list')}">
 		<div class="box .border-rad-large" ng-repeat="list in AppCtrl.memberList">
 			<span>name: {{list.name}}</span>
