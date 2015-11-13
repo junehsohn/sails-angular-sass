@@ -47,7 +47,7 @@
                                     }, function(__err){
                                         deferred.reject(__err);
                                         if(__opt && __opt.fail && __opt.fail.redirect===true){
-                                            $state.go('/list');
+                                            // $state.go('/list');
                                         }
                                     });
                             }
@@ -72,11 +72,11 @@
                                 '<h3>',
                                     '{{parentCtrl.data.name}}',
                                 '</h3>',
+                                '<child-dir list="parentCtrl.data.list" say="parentCtrl.say(__txt)"></child-dir>',
                             '</div>'
                         ].join(''),
                         replace:false,
                         scope:{
-
                         },
                         link:function(scope, iEle, iAttr){
 
@@ -84,23 +84,24 @@
                         controller:function($scope){
                             var vm = this;
                             vm.data;
-
-
+                            vm.say = say;
                             _init();
 
                             function _init(){
                                 // console.log( 'parentDir ctrl init: ',XHR.list() );
+                                _setupData();
+                            }
+
+                            function _setupData(){
                                 XHR.list().then(function(__suc){
                                    vm.data =  __suc.data.DATA;
                                 }, function(__err){
                                     console.log('err: ', __err);
-
                                 });
+                            }
 
-
-                               /* XHR.list().then(function(__data){
-                                    console.log( 'parentDir ctrl init1 : ',__data );
-                                });*/
+                            function say(__txt){
+                                console.log(__txt);
                             }
                         },
                         controllerAs:'parentCtrl'
@@ -108,20 +109,35 @@
                 }]);
 
         angular.module('App.childDir',[])
-                .directive('childDir', ['$q', function($q){
+                .directive('childDir', ['$q','$timeout', function($q, $timeout){
 
                     return {
                         restrict:'AE',
-                        require:'^parentDir',
-                        template:'<div></div>',
-                        replace:true,
                         scope:{
-                            list:'='
+                            list:'=',
+                            say:'&'
                         },
+                        // require:'^parentDir',
+                        template:[
+                            '<div>',
+                                '<div ng-repeat="li in list">',
+                                    '{{li.name}} :: {{li.age}}',
+                                    '<input type="button" value="say" ng-click="childCtrl.say({__txt:li.age})" />',
+                                '</div>',
+                            '</div>'
+                        ].join(''),
+                        replace:true,
+                        
                         link:function(scope, iEle, iAttr){
 
                         },
                         controller:function($scope){
+                            var vm = this;
+                            vm.say = $scope.say;
+                            $timeout(function(){
+                                vm.say({'__txt':'hi'});
+                            }, 2500);
+
 
                         },
                         controllerAs:'childCtrl'

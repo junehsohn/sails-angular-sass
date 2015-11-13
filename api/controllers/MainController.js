@@ -13,7 +13,17 @@ module.exports = {
 			{
 				RESULT:'S',
 				DATA:{
-					name:'test_'+(cnt)
+					name:'test_'+(cnt),
+					list:(function(){
+						var arr = [];
+						for( var i=0, iTotal=parseInt(Math.random()*50); i<iTotal; ++i ){
+							arr.push({
+								name:'list_'+(i),
+								age:30+i
+							});
+						}
+						return arr;
+					})()
 				}
 			}
 		);
